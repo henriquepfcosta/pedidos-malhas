@@ -1,0 +1,500 @@
+/* Cores extraídas do tema da planilha (Office 2013-2022, Ênfase 1 escurecida 25%) */
+:root {
+  --azul: #2f5597;
+  --azul-esc: #1f3a6b;
+  --azul-claro: #dae3f3;
+  --cinza: #7f7f7f;
+  --borda: #000;
+  --fundo: #eef1f5;
+  --papel: #fff;
+  --texto: #111;
+  --muted: #5b6573;
+  --linha: #dfe4ec;
+  --ok: #2e7d32;
+  --erro: #c62828;
+  --foco: #fff7d6;
+  --radius: 8px;
+  --raio-card: 14px;
+  --seguro-baixo: env(safe-area-inset-bottom, 0px);
+  --seguro-topo: env(safe-area-inset-top, 0px);
+  font-family: Calibri, Carlito, "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  color: var(--texto);
+  -webkit-text-size-adjust: 100%;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-tap-highlight-color: transparent; }
+body { margin: 0; background: var(--fundo); font-size: 14px; }
+a { color: var(--azul); }
+svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.muted { color: var(--muted); }
+[hidden] { display: none !important; }
+/* Itens exclusivos de cada modo (servidor x offline) */
+.modo-offline .so-servidor, .modo-servidor .so-offline { display: none !important; }
+
+/* Avisos no topo da lista (instalar no iPhone, lembrete de backup) */
+.aviso {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 12px;
+  background: #e3ecfa; color: var(--azul-esc); border-radius: var(--raio-card, 14px); font-size: 14px;
+}
+.aviso > div { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.aviso.alerta { background: #fff4dc; color: #6b4a00; }
+.aviso-fechar { border: 0; background: none; color: inherit; font-size: 22px; line-height: 1; padding: 4px 6px; cursor: pointer; opacity: .7; }
+.ico-inline { width: 16px; height: 16px; vertical-align: -3px; }
+
+/* ---------- Barra superior ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 8px;
+  padding: calc(10px + var(--seguro-topo)) 16px 10px; background: var(--azul); color: #fff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / .15);
+}
+.topbar h1 { font-size: 18px; margin: 0; font-weight: 700; white-space: nowrap; }
+.titulo-bloco { display: flex; flex-direction: column; min-width: 0; }
+.topbar .spacer { flex: 1; }
+.estado { font-size: 12px; opacity: .85; min-height: 14px; white-space: nowrap; }
+.estado.erro { color: #ffd0d0; opacity: 1; font-weight: 700; }
+.acoes { display: flex; align-items: center; gap: 8px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid rgb(255 255 255 / .5); background: rgb(255 255 255 / .12); color: #fff;
+  padding: 7px 12px; border-radius: var(--radius); font: inherit; font-size: 14px;
+  cursor: pointer; text-decoration: none; white-space: nowrap; min-height: 36px;
+}
+.btn:hover { background: rgb(255 255 255 / .25); }
+.btn.icone { padding: 7px 9px; }
+.btn.primario { background: #fff; color: var(--azul); border-color: #fff; font-weight: 700; }
+.btn.primario:hover { background: var(--azul-claro); }
+.btn.claro { background: #fff; color: var(--azul); border: 1px solid #c3cde0; }
+.btn.claro:hover { background: var(--azul-claro); }
+.btn.perigo { color: var(--erro); }
+.btn.pequeno { padding: 4px 9px; font-size: 13px; min-height: 0; }
+.btn:disabled { opacity: .6; cursor: default; }
+
+/* Situação do pedido (chip colorido) */
+.status-select {
+  appearance: none; -webkit-appearance: none; border: 0; border-radius: 99px; font: inherit; font-size: 13px; font-weight: 700;
+  padding: 7px 28px 7px 12px; cursor: pointer; min-height: 34px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23555' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 10px center / 10px;
+}
+.status-select[data-status="rascunho"] { color: #4a5361; }
+.status-select[data-status="enviado"] { color: var(--azul); background-color: #e3ecfa; }
+.status-select[data-status="aprovado"] { color: var(--ok); background-color: #e4f3e5; }
+.status-select[data-status="cancelado"] { color: var(--erro); background-color: #fdecec; }
+
+.menu { position: relative; }
+.menu-itens {
+  display: none; position: absolute; right: 0; top: calc(100% + 6px); min-width: 220px;
+  background: #fff; color: var(--texto); border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / .22); padding: 6px; z-index: 30;
+}
+.menu.aberto .menu-itens { display: block; }
+.menu.para-cima .menu-itens { top: auto; bottom: calc(100% + 10px); }
+.menu-itens button, .menu-itens a {
+  display: block; width: 100%; text-align: left; padding: 12px; border: 0; background: none;
+  font: inherit; font-size: 15px; color: inherit; border-radius: 8px; cursor: pointer; text-decoration: none;
+}
+.menu-itens button:hover, .menu-itens a:hover { background: var(--azul-claro); }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + var(--seguro-baixo)); transform: translateX(-50%) translateY(20px);
+  background: #222; color: #fff; padding: 10px 16px; border-radius: var(--radius);
+  opacity: 0; transition: .2s; pointer-events: none; z-index: 60; white-space: nowrap;
+}
+.toast.visivel { opacity: 1; transform: translateX(-50%); }
+
+/* ---------- Folha (réplica da planilha) ---------- */
+.area { padding: 20px 16px 40px; overflow-x: auto; }
+.folha {
+  min-width: 960px; max-width: 1180px; margin: 0 auto; background: var(--papel);
+  padding: 18px 34px 18px 18px; box-shadow: 0 2px 12px rgb(0 0 0 / .12);
+}
+.planilha { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14.5px; }
+.planilha td { height: 24px; padding: 0 4px; vertical-align: middle; overflow: hidden; }
+.planilha td.b { border: 1px solid var(--borda); }
+.planilha td.bb { border-bottom: 1px solid var(--borda); }
+/* Linha de espaço fechada só nas laterais (a caixa dos dados do pedido "flutua" dentro da moldura) */
+.planilha td.lat { border-left: 1px solid var(--borda); border-right: 1px solid var(--borda); height: 12px; padding: 0; }
+.planilha .rot { font-weight: 700; text-align: center; white-space: nowrap; }
+.planilha .cab { background: var(--azul); color: #fff; font-weight: 700; text-align: center; border: 1px solid var(--borda); }
+.planilha .titulo { font-size: 48px; font-weight: 700; text-align: center; border: 1px solid var(--borda); line-height: 1; }
+.planilha .faixa { background: var(--azul); color: #fff; font-weight: 700; font-size: 16px; padding: 0 10px; height: 34px; }
+/* A imagem fica sobreposta à célula (não altera a altura das linhas) */
+.planilha .logo { border: 1px solid var(--borda); padding: 0; position: relative; height: 114px; overflow: hidden; }
+.planilha .logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.planilha .logo .sem-logo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #a3acb9; font-size: 12px; }
+.planilha .totalgeral { background: var(--cinza); font-weight: 700; text-align: center; border: 1px solid var(--borda); border-bottom: 2px solid var(--borda); }
+.planilha .moeda { text-align: right; white-space: nowrap; }
+.planilha .forte { font-weight: 700; font-size: 16px; }
+.planilha tr.item:nth-child(even) td { background: #fafbfd; }
+
+.planilha input, .planilha textarea {
+  width: 100%; border: 0; background: transparent; font: inherit; color: inherit;
+  padding: 3px 2px; outline: none; text-align: inherit;
+}
+.planilha input:hover, .planilha textarea:hover { background: rgb(47 85 151 / .05); }
+.planilha input:focus, .planilha textarea:focus { background: var(--foco); box-shadow: inset 0 0 0 2px var(--azul); }
+.planilha textarea { height: 100%; min-height: 120px; resize: vertical; }
+.planilha .c { text-align: center; }
+.planilha .r { text-align: right; }
+
+.campo-moeda { display: flex; align-items: center; gap: 4px; }
+.campo-moeda span { flex: none; }
+.campo-moeda input { text-align: right; }
+
+.frete-opcao { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; justify-content: center; width: 100%; }
+.frete-opcao input { width: auto; accent-color: var(--azul); }
+/* Desconto no cabeçalho: número e % juntos, no centro da célula */
+.pct-fixo { justify-content: center; gap: 2px; }
+.pct-fixo input { width: 4.5em; flex: none; }
+.frete-par { display: flex; align-items: center; justify-content: space-evenly; gap: 8px; }
+.frete-par .frete-opcao { width: auto; }
+.marca { display: none; }
+
+.planilha td.total-linha { position: relative; overflow: visible; }
+.planilha td.total-linha .btn-x { position: absolute; right: -26px; top: 50%; transform: translateY(-50%); }
+.btn-x {
+  border: 0; background: none; color: #b0b7c3; cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 4px; border-radius: 4px;
+}
+.btn-x:hover { color: var(--erro); background: #fdecec; }
+
+.rodape-folha { display: flex; gap: 8px; justify-content: space-between; margin-top: 10px; color: var(--muted); font-size: 12px; }
+.somente-leitura .planilha input, .somente-leitura .planilha textarea { pointer-events: none; }
+
+/* ---------- Formulário do celular ---------- */
+.app-form { display: none; }
+.barra-app { display: none; }
+
+.secao {
+  background: #fff; border-radius: var(--raio-card); padding: 14px 14px 6px; margin: 0 0 12px;
+  box-shadow: 0 1px 3px rgb(16 24 40 / .08);
+}
+.secao h2 {
+  margin: 0 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--azul);
+  display: flex; align-items: center; gap: 8px;
+}
+.contador { background: var(--azul-claro); color: var(--azul); border-radius: 99px; padding: 1px 8px; font-size: 12px; letter-spacing: 0; }
+
+.fld { display: block; margin-bottom: 10px; min-width: 0; }
+.fld > span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+.fld input, .secao textarea, .login-caixa input {
+  display: block; width: 100%; font: inherit; font-size: 16px; color: var(--texto);
+  padding: 11px 12px; border: 1px solid #cdd5e1; border-radius: 10px; background: #fbfcfe;
+  outline: none; min-height: 46px; transition: border-color .15s, box-shadow .15s;
+}
+.fld input:focus, .secao textarea:focus, .login-caixa input:focus {
+  border-color: var(--azul); background: #fff; box-shadow: 0 0 0 3px rgb(47 85 151 / .18);
+}
+.fld input::placeholder, .secao textarea::placeholder { color: #a3acb9; }
+.secao textarea { resize: vertical; margin-bottom: 10px; line-height: 1.4; }
+.grade2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.grade3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 8px; }
+.grade-fim { display: grid; grid-template-columns: 1fr 96px; gap: 0 10px; }
+
+.segmentado { display: grid; grid-template-columns: 1fr 1fr; background: #edf1f7; border-radius: 10px; padding: 3px; gap: 3px; }
+.seg { position: relative; display: block; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span:not(.marca) {
+  display: block; text-align: center; padding: 10px; border-radius: 8px; font-weight: 700; color: var(--muted); font-size: 15px;
+}
+.seg input:checked + span { background: #fff; color: var(--azul); box-shadow: 0 1px 3px rgb(0 0 0 / .15); }
+.seg input:focus-visible + span { outline: 2px solid var(--azul); }
+
+/* Lista compacta de itens (toque para editar) */
+.itens-lista { margin: 0 -14px 10px; border-top: 1px solid var(--linha); }
+.item-linha {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 14px; text-align: left;
+  border: 0; border-bottom: 1px solid var(--linha); background: none; font: inherit; color: inherit; cursor: pointer;
+}
+button.item-linha:active { background: #f2f5fb; }
+.item-linha svg { color: #a3acb9; width: 18px; height: 18px; }
+.il-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.il-info strong { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.il-info small { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.il-total { font-weight: 700; font-size: 15px; white-space: nowrap; }
+.itens-vazio { margin: 0; padding: 18px 14px; text-align: center; color: var(--muted); border-bottom: 1px solid var(--linha); }
+.link-acao {
+  border: 0; background: none; color: var(--muted); font: inherit; font-size: 13px; padding: 6px 4px; cursor: pointer;
+}
+
+/* Modal de item: folha que sobe de baixo no celular, janela centralizada em telas maiores */
+body.modal-aberto { overflow: hidden; }
+dialog.sheet {
+  border: 0; padding: 0; width: min(100%, 480px); max-width: 100%; max-height: 92dvh; margin: auto;
+  border-radius: 20px; background: #fff; color: var(--texto); box-shadow: 0 20px 50px rgb(0 0 0 / .3);
+}
+dialog.sheet::backdrop { background: rgb(15 23 42 / .45); }
+dialog.sheet[open] { animation: sheet-entra .2s ease-out; }
+@keyframes sheet-entra { from { transform: translateY(24px); opacity: 0; } }
+.sheet-corpo { padding: 8px 16px calc(16px + var(--seguro-baixo)); }
+.sheet-alca { width: 40px; height: 5px; border-radius: 99px; background: #d5dbe5; margin: 0 auto 6px; display: none; }
+.sheet-topo { display: flex; align-items: center; justify-content: space-between; margin: 4px 0 12px; }
+.sheet-topo h3 { margin: 0; font-size: 18px; color: var(--azul-esc); }
+.sheet-fechar { border: 0; background: #f0f3f8; color: var(--muted); width: 36px; height: 36px; border-radius: 99px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.sheet-dica { margin: -2px 0 10px; font-size: 12px; color: var(--muted); }
+.sheet-erro, .sheet-ok { border-radius: 8px; padding: 9px 12px; margin: 0 0 10px; font-size: 14px; }
+.sheet-erro { background: #fdecec; color: var(--erro); }
+.sheet-ok { background: #e4f3e5; color: var(--ok); }
+.sheet-total {
+  display: flex; justify-content: space-between; align-items: baseline; padding: 12px 14px; margin-bottom: 14px;
+  background: #f3f6fb; border-radius: 12px; font-size: 15px;
+}
+.sheet-total strong { font-size: 20px; color: var(--azul); }
+.sheet-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-pri, .btn-sec {
+  flex: 1 1 auto; min-height: 48px; padding: 12px 14px; border-radius: 12px; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+}
+.btn-pri { border: 0; background: var(--azul); color: #fff; flex-basis: 100%; order: -1; }
+.btn-sec { border: 1px solid #c3cde0; background: #fff; color: var(--azul); }
+.btn-sec.perigo { color: var(--erro); border-color: #f1c4c4; }
+.btn-add {
+  width: 100%; padding: 12px; margin-bottom: 10px; border: 1.5px dashed #9fb0cf; border-radius: 12px; background: #f6f8fc;
+  color: var(--azul); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+}
+.linha-total { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0 10px; font-size: 15px; }
+.linha-total.grande { border-top: 1px solid var(--linha); padding-top: 12px; font-size: 17px; }
+.linha-total.grande strong { font-size: 20px; color: var(--azul); }
+
+.somente-leitura .fld input, .somente-leitura .secao textarea { border-color: transparent; background: #f5f7fa; }
+.somente-leitura .seg input:not(:checked) + span { opacity: .5; }
+
+/* Barra de ações inferior (celular) */
+.barra-app {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  align-items: center; gap: 4px; padding: 8px 10px calc(8px + var(--seguro-baixo));
+  background: #fff; border-top: 1px solid var(--linha); box-shadow: 0 -4px 16px rgb(0 0 0 / .08);
+}
+.barra-total { flex: 1; min-width: 0; display: flex; flex-direction: column; padding-left: 4px; }
+.barra-total small { color: var(--muted); font-size: 12px; }
+.barra-total strong { font-size: 19px; color: var(--azul); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bb-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 62px; padding: 6px 4px;
+  border: 0; background: none; color: var(--azul); font: inherit; font-size: 11px; font-weight: 700; border-radius: 10px; cursor: pointer;
+}
+.bb-btn:active { background: var(--azul-claro); }
+.bb-btn svg { width: 22px; height: 22px; }
+
+/* ---------- Interruptor (liga/desliga) ---------- */
+.chave { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.chave input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.trilho { position: relative; flex: none; width: 46px; height: 28px; border-radius: 99px; background: #c5cdda; transition: background .15s; }
+.trilho::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / .3); transition: transform .15s;
+}
+.chave input:checked + .trilho { background: var(--ok); }
+.chave input:checked + .trilho::after { transform: translateX(18px); }
+.chave input:focus-visible + .trilho { outline: 2px solid var(--azul); outline-offset: 2px; }
+.chave-barra { color: #fff; font-size: 14px; margin-right: 4px; }
+.chave-barra .trilho { background: rgb(255 255 255 / .35); }
+.chave-barra input:checked + .trilho { background: #3fbf6d; }
+.chave-mini { margin-left: auto; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.chave-mini .trilho { width: 38px; height: 22px; }
+.chave-mini .trilho::after { width: 16px; height: 16px; }
+.chave-mini input:checked + .trilho::after { transform: translateX(16px); }
+
+/* Comissão (%) na planilha: o "%" só aparece quando há valor */
+.pct-cel input:placeholder-shown + span { display: none; }
+.fld-metade { width: calc(50% - 4px); }
+
+/* ---------- Janela de ações (menu inferior) e botão único da barra ---------- */
+.btn-acoes {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px;
+  border: 0; border-radius: 14px; background: var(--azul); color: #fff; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 12px rgb(31 58 107 / .35);
+}
+.btn-acoes:active { background: var(--azul-esc); }
+.btn-acoes svg { width: 20px; height: 20px; }
+.acoes-lista { display: grid; gap: 2px; padding-bottom: 4px; }
+.acoes-lista > button, .acao-chave {
+  display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 8px; border: 0; border-radius: 12px; background: none;
+  font: inherit; font-size: 16px; color: var(--texto); text-align: left; cursor: pointer;
+}
+.acoes-lista > button:active { background: var(--azul-claro); }
+.acoes-lista > button svg { width: 22px; height: 22px; color: var(--azul); }
+.acao-chave { justify-content: space-between; margin-top: 6px; border-top: 1px solid var(--linha); border-radius: 0; padding-top: 16px; }
+.acao-chave > span:first-child { display: flex; flex-direction: column; gap: 2px; }
+.acao-chave small { color: var(--muted); font-size: 12px; }
+
+/* ---------- Visualizar documento (tela cheia) ---------- */
+dialog.previa {
+  border: 0; padding: 0; margin: 0; width: 100%; max-width: none; height: 100vh; height: 100dvh; max-height: none;
+  background: #dfe5ee; color: var(--texto);
+}
+dialog.previa[open] { display: flex; flex-direction: column; }
+dialog.previa::backdrop { background: #000; }
+.previa-topo {
+  display: flex; align-items: center; gap: 10px; padding: calc(10px + var(--seguro-topo)) 12px 10px;
+  background: var(--azul); color: #fff;
+}
+.previa-topo strong { flex: 1; font-size: 17px; }
+.previa-fechar { border: 0; background: rgb(255 255 255 / .18); color: #fff; width: 38px; height: 38px; border-radius: 99px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.previa-corpo { flex: 1; overflow: auto; padding: 8px; -webkit-overflow-scrolling: touch; }
+.previa-corpo > div { margin: 0 auto; }
+.previa-folha {
+  width: 1180px; box-sizing: border-box; padding: 18px; background: #fff; transform-origin: top left;
+  box-shadow: 0 2px 12px rgb(0 0 0 / .2);
+}
+.previa-folha .planilha input, .previa-folha .planilha textarea { pointer-events: none; }
+/* Como no PDF: data vazia sem "dd/mm/aaaa" e frete marcado com ( X ) */
+.previa-folha .planilha input[data-vazio] { color: transparent; }
+.previa-folha .planilha input[type=date]::-webkit-calendar-picker-indicator { display: none; }
+.previa-folha .frete-opcao input { display: none; }
+.previa-folha .frete-opcao .marca { display: inline; font-weight: 700; margin-left: 6px; }
+.previa-folha .logo .sem-logo { display: none; }
+.previa-folha .btn-x { display: none; }
+.previa-rodape {
+  display: flex; gap: 8px; padding: 10px 12px calc(10px + var(--seguro-baixo)); background: #fff; border-top: 1px solid var(--linha);
+}
+.previa-rodape .btn-pri { flex: 2; order: 0; flex-basis: auto; }
+.previa-rodape .btn-sec { flex: 1; }
+
+/* ---------- Configurações ---------- */
+.config-bloco h4 { margin: 0 0 4px; font-size: 16px; color: var(--azul-esc); }
+.config-ajuda { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+.logo-prev {
+  display: flex; align-items: center; justify-content: center; height: 150px; margin-bottom: 12px; padding: 8px;
+  border: 1.5px dashed #b8c3d6; border-radius: 12px; background: #f6f8fc; color: var(--muted);
+}
+.logo-prev img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+
+/* ---------- Lista de pedidos ---------- */
+.painel { max-width: 1180px; margin: 20px auto; padding: 0 16px 24px; }
+.filtros { display: flex; gap: 10px; margin-bottom: 14px; }
+.filtros input, .filtros select {
+  padding: 10px 12px; border: 1px solid #c3cde0; border-radius: 10px; font: inherit; font-size: 16px; background: #fff; min-height: 44px;
+}
+.filtros input { flex: 1; min-width: 0; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.card { background: #fff; border-radius: var(--raio-card); padding: 14px 16px; box-shadow: 0 1px 3px rgb(16 24 40 / .08); }
+.card small { color: var(--muted); display: block; margin-bottom: 4px; }
+.card strong { font-size: 22px; }
+.tabela-wrap { background: #fff; border-radius: var(--raio-card); box-shadow: 0 1px 3px rgb(16 24 40 / .08); overflow-x: auto; }
+table.lista { width: 100%; border-collapse: collapse; min-width: 760px; }
+table.lista th, table.lista td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e6e9ef; }
+table.lista th { background: var(--azul-claro); color: var(--azul); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; }
+table.lista tbody tr { cursor: pointer; }
+table.lista tbody tr:hover { background: #f5f8fd; }
+table.lista td.num { text-align: right; white-space: nowrap; }
+.vazio { padding: 40px; text-align: center; color: var(--muted); }
+
+.lista-cards { display: none; }
+.pedido-card {
+  background: #fff; border-radius: var(--raio-card); padding: 12px 14px 6px; margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgb(16 24 40 / .08); cursor: pointer;
+}
+.pedido-card:active { background: #f5f8fd; }
+.pc-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.pc-num { font-weight: 700; color: var(--azul); font-size: 13px; }
+.pc-cliente { font-size: 16px; font-weight: 700; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc-info { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc-rodape { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; border-top: 1px solid #eef1f5; padding-top: 2px; }
+.pc-total { font-size: 17px; }
+.link-acao.perigo { color: var(--erro); }
+
+.status { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; }
+.status.rascunho { background: #eceff3; color: #4a5361; }
+.status.enviado { background: #e3ecfa; color: var(--azul); }
+.status.aprovado { background: #e4f3e5; color: var(--ok); }
+.status.cancelado { background: #fdecec; color: var(--erro); }
+
+.fab {
+  display: none; position: fixed; right: 18px; bottom: calc(18px + var(--seguro-baixo)); z-index: 20;
+  width: 58px; height: 58px; border-radius: 18px; border: 0; background: var(--azul); color: #fff;
+  box-shadow: 0 6px 18px rgb(31 58 107 / .45); cursor: pointer; align-items: center; justify-content: center;
+}
+.fab svg { width: 28px; height: 28px; stroke-width: 2.4; }
+
+/* ---------- Login ---------- */
+.tela-login {
+  min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+  padding: 24px 16px; background: linear-gradient(160deg, var(--azul) 0%, var(--azul-esc) 100%);
+}
+.login-caixa {
+  width: 100%; max-width: 380px; background: #fff; border-radius: 20px; padding: 32px 24px 26px;
+  box-shadow: 0 20px 50px rgb(0 0 0 / .3); text-align: center;
+}
+.login-logo { width: auto; height: auto; max-width: 70%; max-height: 150px; border-radius: 14px; margin-bottom: 14px; }
+.login-logo.icone { width: 72px; height: 72px; border-radius: 18px; }
+.login-caixa h1 { margin: 0; font-size: 22px; color: var(--azul-esc); }
+.login-sub { margin: 4px 0 22px; color: var(--muted); }
+.login-caixa form { text-align: left; }
+.senha-wrap { position: relative; }
+.senha-wrap input { padding-right: 84px; }
+.ver-senha {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  border: 0; background: none; color: var(--azul); font: inherit; font-size: 13px; font-weight: 700; padding: 8px; cursor: pointer;
+}
+.login-erro { background: #fdecec; color: var(--erro); border-radius: 8px; padding: 10px 12px; margin: 4px 0 12px; font-size: 14px; }
+.btn-grande {
+  width: 100%; margin-top: 6px; padding: 14px; border: 0; border-radius: 12px; background: var(--azul); color: #fff;
+  font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; min-height: 50px;
+}
+.btn-grande:hover { background: var(--azul-esc); }
+.btn-grande:disabled { opacity: .7; cursor: default; }
+
+/* ---------- Celular / tablet estreito ---------- */
+@media (max-width: 760px) {
+  .so-desktop { display: none !important; }
+  .topbar { padding: calc(8px + var(--seguro-topo)) 10px 8px; gap: 6px; }
+  .topbar h1 { font-size: 17px; }
+
+  /* Pedido: formulário em cartões no lugar da planilha */
+  .tela-pedido .area-folha { display: none; }
+  .tela-pedido .app-form { display: block; padding: 12px 10px calc(96px + var(--seguro-baixo)); max-width: 640px; margin: 0 auto; }
+  .tela-pedido .barra-app { display: flex; }
+
+  /* Lista: cartões no lugar da tabela */
+  .painel { margin-top: 12px; padding: 0 10px calc(96px + var(--seguro-baixo)); }
+  .cards { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .card { padding: 10px 12px; }
+  .card strong { font-size: 18px; }
+  .filtros { gap: 8px; }
+  .filtros select { max-width: 130px; }
+  .lista-cards { display: block; }
+  .fab { display: flex; }
+  .toast { bottom: calc(96px + var(--seguro-baixo)); }
+
+  dialog.sheet { width: 100%; margin: auto 0 0; border-radius: 20px 20px 0 0; }
+  dialog.sheet[open] { animation: sheet-sobe .22s ease-out; }
+  .sheet-alca { display: block; }
+}
+@keyframes sheet-sobe { from { transform: translateY(100%); } }
+@media (max-width: 360px) {
+  .grade3 { grid-template-columns: 1fr 1fr; }
+  .grade3 .fld:last-child { grid-column: 1 / -1; }
+  .bb-btn { min-width: 54px; }
+}
+
+/* ---------- Impressão / PDF (A4 retrato, como a planilha) — sempre usa a planilha ---------- */
+/* Margens laterais de 14 mm: sobra folga entre a tabela e a borda da folha, para que nenhuma impressora ou
+   visualizador corte a linha da direita. A tabela nunca passa de 182 mm (210 − 2 × 14), mesmo que o
+   navegador calcule a página um pouco mais larga. */
+@page { size: A4 portrait; margin: 10mm 14mm; }
+@media print {
+  body { background: #fff; }
+  .topbar, .no-print, .toast, .rodape-folha, .barra-app, .app-form, .fab, dialog.previa, dialog.sheet { display: none !important; }
+  .tela-pedido .area-folha { display: block !important; }
+  .area { padding: 0; overflow: visible; }
+  .folha { min-width: 0; width: 100%; max-width: 182mm; margin: 0; box-shadow: none; padding: 0; }
+  .planilha { font-size: 8pt; }
+  .planilha td { height: 16px; padding: 0 3px; }
+  .planilha .titulo { font-size: 30pt; }
+  .planilha .faixa { height: 24px; font-size: 11pt; }
+  .planilha .forte { font-size: 9.5pt; }
+  /* Como no Excel: rótulos sem fundo transbordam para a célula vizinha vazia */
+  .planilha .rot { overflow: visible; }
+  .planilha .rot, .planilha .cab { font-size: 7.5pt; padding: 0 1px; }
+  .planilha td.total-linha { position: static; }
+  .planilha .totalgeral { white-space: nowrap; }
+  .planilha input[data-vazio] { color: transparent; }
+  .planilha input[type=date]::-webkit-calendar-picker-indicator { display: none; }
+  .planilha .logo { height: 76px; }
+  .planilha tr.item:nth-child(even) td { background: none; }
+  .planilha input, .planilha textarea { padding: 1px; }
+  .planilha textarea { resize: none; min-height: 0; }
+  .frete-opcao input { display: none; }
+  .frete-opcao .marca { display: inline; font-weight: 700; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
